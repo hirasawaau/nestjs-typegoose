@@ -34,17 +34,19 @@ class MockTask {
 
 describe('createTypegooseProviders', () => {
   let connection: Connection;
+  let mongod: MongoMemoryServer
 
   beforeAll(async () => {
     jest.setTimeout(120000);
+    mongod = await MongoMemoryServer.create()
 
     connection = await mongoose.createConnection(
-      await mongod.getConnectionString(),
+      mongod.getUri(),
       {
-        useCreateIndex: true,
-        useFindAndModify: true,
-        useNewUrlParser: true,
-        useUnifiedTopology: true
+        // useCreateIndex: true,
+        // useFindAndModify: true,
+        // useNewUrlParser: true,
+        // useUnifiedTopology: true
       }
     );
   });

@@ -6,9 +6,9 @@ import { MongoMemoryServer } from 'mongodb-memory-server';
   imports: [
     TypegooseModule.forRootAsync({
       useFactory: async () => {
-        const mongod = new MongoMemoryServer();
+        const mongod = await MongoMemoryServer.create();
         return {
-          uri: await mongod.getConnectionString(),
+          uri: mongod.getUri,
           useNewUrlParser: true,
           useUnifiedTopology: true,
           useCreateIndex: true,

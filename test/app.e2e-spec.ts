@@ -11,7 +11,7 @@ import { InjectModel, TypegooseModule, getModelToken } from '../src';
 import { prop } from '@typegoose/typegoose';
 import { MongoMemoryServer } from 'mongodb-memory-server';
 
-const mongod = new MongoMemoryServer();
+
 
 @Module({
   imports: [TypegooseModule.forRoot('mongoose:uri')]
@@ -91,9 +91,10 @@ class MockSubModule {}
 
 describe('App consuming TypegooseModule', () => {
   let app;
+  let mongod: MongoMemoryServer
 
   beforeAll(async () => {
-    await mongod.getConnectionString();
+    mongod = await MongoMemoryServer.create()
 
     const moduleFixture = await Test.createTestingModule({
       imports: [MockApp, MockSubModule]
@@ -127,9 +128,9 @@ describe('App consuming TypegooseModule', () => {
 
 describe('Clear typegoose state after module destroy', () => {
   let app: INestApplication;
-
+  let mongod: MongoMemoryServer
   beforeAll(async () => {
-    await mongod.getConnectionString();
+    mongod = await MongoMemoryServer.create()
   });
 
   afterAll(() => mongod.stop());
