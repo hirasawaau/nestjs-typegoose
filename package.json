@@ -1,11 +1,11 @@
 {
-  "name": "nestjs-typegoose",
-  "version": "7.1.38",
+  "name": "@hirasawa_au/nestjs-typegoose",
+  "version": "8.0.0",
   "description": "A nestjs module wrapper for typegoose",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "engines": {
-    "node": ">=8.10.0"
+    "node": ">=14.17.3"
   },
   "scripts": {
     "build": "tsc -p tsconfig.build.json",
