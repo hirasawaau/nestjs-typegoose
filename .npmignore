@@ -225,6 +225,7 @@ test
 .gitignore
 /src/__snapshots__/
 gulpfile.js
-tslint.json
+.eslintrc.js
+.prettierrc.js
 example/
 website
