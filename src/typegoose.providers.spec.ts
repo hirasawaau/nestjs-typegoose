@@ -10,7 +10,7 @@ import {
 } from './typegoose.providers';
 import any = jasmine.any;
 
-const mongod = new MongoMemoryServer();
+let mongod: MongoMemoryServer
 
 class MockUser {
   @prop()
@@ -37,15 +37,10 @@ describe('createTypegooseProviders', () => {
 
   beforeAll(async () => {
     jest.setTimeout(120000);
+    mongod = await MongoMemoryServer.create();
 
     connection = await mongoose.createConnection(
-      await mongod.getConnectionString(),
-      {
-        useCreateIndex: true,
-        useFindAndModify: true,
-        useNewUrlParser: true,
-        useUnifiedTopology: true
-      }
+      mongod.getUri(),
     );
   });
 
