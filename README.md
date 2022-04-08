@@ -141,10 +141,10 @@ export class CatsController {
 
 ## Requirements
 
-1.  @typegoose/typegoose +6.1.5
-2.  @nestjs/common +6.10.1
-3.  @nestjs/core +6.10.1
-4.  mongoose (with typings `@types/mongoose`) +5.7.12
+1.  @typegoose/typegoose +9.0.0
+2.  @nestjs/common +8.4.4
+3.  @nestjs/core +8.4.4
+4.  mongoose +6.2.10
 
 ## License
 
