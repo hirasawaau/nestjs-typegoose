@@ -18,13 +18,13 @@ Using Typegoose removes the need for having a Model interface.
 ## Installation
 
 ```bash
-npm install --save nestjs-typegoose
+npm install --save @hirasawa_au/nestjs-typegoose
 ```
 
 or
 
 ```
-yarn add nestjs-typegoose
+yarn add @hirasawa_au/nestjs-typegoose
 ```
 
 ## Documentation
