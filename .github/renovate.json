@@ -1,6 +1,6 @@
 {
   "extends": ["config:base"],
-  "assignees": ["@kpfromer"],
+  "assignees": ["@hirasawaau"],
   "automerge": true,
   "major": {
     "automerge": false
