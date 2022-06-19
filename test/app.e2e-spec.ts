@@ -1,36 +1,37 @@
-import * as request from 'supertest';
-import { Test } from '@nestjs/testing';
+import * as request from 'supertest'
+import { Test } from '@nestjs/testing'
 import {
   Body,
   Controller,
   Module,
   Post,
-  INestApplication
-} from '@nestjs/common';
-import { InjectModel, TypegooseModule, getModelToken } from '../src';
-import { prop } from '@typegoose/typegoose';
-import { MongoMemoryServer } from 'mongodb-memory-server';
+  INestApplication,
+} from '@nestjs/common'
+import { InjectModel, TypegooseModule, getModelToken } from '../src'
+import { prop } from '@typegoose/typegoose'
+import { MongoMemoryServer } from 'mongodb-memory-server'
+import { NestApplication } from '@nestjs/core'
 
-const mongod = new MongoMemoryServer();
+const uri = process.env.MONGOURI ?? 'mongodb://localhost:27017/test'
 
 @Module({
-  imports: [TypegooseModule.forRoot('mongoose:uri')]
+  imports: [TypegooseModule.forRoot(uri)],
 })
 export class MockApp {}
 
 class MockTypegooseClass {
   @prop()
-  description;
+  description
 }
 
 class MockDiscriminatorParent extends MockTypegooseClass {
   @prop()
-  isParent: boolean;
+  isParent: boolean
 }
 
 class MockDiscriminator extends MockDiscriminatorParent {
   @prop()
-  isSubtype: boolean;
+  isSubtype: boolean
 }
 
 @Controller()
@@ -40,15 +41,15 @@ class MockController {
   @Post('create')
   async createTask(@Body() body: { description: string }) {
     return this.model.create({
-      description: body.description
-    });
+      description: body.description,
+    })
   }
 
   @Post('get')
   async getTask(@Body() body: { description: string }) {
     return this.model.findOne({
-      description: body.description
-    });
+      description: body.description,
+    })
   }
 }
 
@@ -58,20 +59,20 @@ class MockSubController {
 
   @Post('createSubTask')
   async createSubTask(
-    @Body() body: { description: string; isSubtype: boolean }
+    @Body() body: { description: string; isSubtype: boolean },
   ) {
     return this.model.create({
       description: body.description,
       isParent: false,
-      isSubtype: body.isSubtype
-    });
+      isSubtype: body.isSubtype,
+    })
   }
 
   @Post('getSubTask')
   async getSubTask(@Body() body: { isSubtype: boolean }) {
     return this.model.findOne({
-      isSubtype: body.isSubtype
-    });
+      isSubtype: body.isSubtype,
+    })
   }
 }
 
@@ -81,100 +82,84 @@ class MockSubController {
       MockTypegooseClass,
       {
         typegooseClass: MockDiscriminatorParent,
-        discriminators: [MockDiscriminator]
-      }
-    ])
+        discriminators: [MockDiscriminator],
+      },
+    ]),
   ],
-  controllers: [MockController, MockSubController]
+  controllers: [MockController, MockSubController],
 })
 class MockSubModule {}
 
 describe('App consuming TypegooseModule', () => {
-  let app;
+  let app: NestApplication
 
   beforeAll(async () => {
-    await mongod.getConnectionString();
-
     const moduleFixture = await Test.createTestingModule({
-      imports: [MockApp, MockSubModule]
-    }).compile();
+      imports: [MockApp, MockSubModule],
+    }).compile()
 
-    app = moduleFixture.createNestApplication();
-    await app.init();
-  });
-
-  afterAll(() => mongod.stop());
+    app = moduleFixture.createNestApplication()
+    await app.init()
+  })
 
   it('should store and get mockTask', async () => {
-    await request(app.getHttpServer())
-      .post('/create')
-      .send({
-        description: 'hello world'
-      });
+    await request(app.getHttpServer()).post('/create').send({
+      description: 'hello world',
+    })
 
-    const response = await request(app.getHttpServer())
-      .post('/get')
-      .send({
-        description: 'hello world'
-      });
+    const response = await request(app.getHttpServer()).post('/get').send({
+      description: 'hello world',
+    })
 
-    const body = response.body;
+    const body = response.body
 
-    expect(body._id).toBeTruthy();
-    expect(body.description).toBe('hello world');
-  });
-});
+    expect(body._id).toBeTruthy()
+    expect(body.description).toBe('hello world')
+  })
+})
 
 describe('Clear typegoose state after module destroy', () => {
-  let app: INestApplication;
-
-  beforeAll(async () => {
-    await mongod.getConnectionString();
-  });
-
-  afterAll(() => mongod.stop());
+  let app: INestApplication
 
   beforeEach(async () => {
     const moduleFixture = await Test.createTestingModule({
-      imports: [MockApp, MockSubModule]
-    }).compile();
+      imports: [MockApp, MockSubModule],
+    }).compile()
 
-    app = moduleFixture.createNestApplication();
-    await app.init();
-  });
+    app = moduleFixture.createNestApplication()
+    await app.init()
+  })
 
   afterEach(async () => {
-    await app.close();
-  });
+    await app.close()
+  })
 
   Array.from({ length: 2 }).forEach(() => {
     it('resolved model should use correct connection', async () => {
-      const model = await app.get(getModelToken(MockTypegooseClass.name));
+      const model = await app.get(getModelToken(MockTypegooseClass.name))
       await model.create({
-        description: 'test'
-      });
-    });
-  });
+        description: 'test',
+      })
+    })
+  })
 
   it('should store and get mockSubTask', async () => {
-    await request(app.getHttpServer())
-      .post('/createSubTask')
-      .send({
-        description: 'hello world',
-        isSubtype: true
-      });
+    await request(app.getHttpServer()).post('/createSubTask').send({
+      description: 'hello world',
+      isSubtype: true,
+    })
 
     const response = await request(app.getHttpServer())
       .post('/getSubTask')
       .send({
         description: 'hello world',
-        isSubtype: true
-      });
+        isSubtype: true,
+      })
 
-    const body = response.body;
+    const body = response.body
 
-    expect(body._id).toBeTruthy();
-    expect(body.isParent).toBe(false);
-    expect(body.isSubtype).toBe(true);
-  });
-});
+    expect(body._id).toBeTruthy()
+    expect(body.isParent).toBe(false)
+    expect(body.isSubtype).toBe(true)
+  })
+})

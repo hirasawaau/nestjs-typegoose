@@ -1,106 +1,99 @@
 {
-    "name": "@hirasawa_au/nestjs-typegoose",
-    "version": "8.0.0",
-    "description": "A nestjs module wrapper for typegoose",
-    "main": "dist/index.js",
-    "types": "dist/index.d.ts",
-    "engines": {
-        "node": ">=14.17.3"
+  "name": "@hirasawa_au/nestjs-typegoose",
+  "version": "8.0.2",
+  "description": "A nestjs module wrapper for typegoose",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "engines": {
+    "node": ">=16.15.0"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "lint": "eslint \"{src,apps,libs,test}/**/*.ts\"",
+    "lint:fix": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
+    "test": "jest",
+    "test:ci": "jest",
+    "test:cov": "jest --coverage",
+    "test:e2e": "jest --config ./test/jest-e2e.json",
+    "test:watch": "jest --watch",
+    "coverage": "npm run test:cov && cat ./coverage/lcov.info | coveralls",
+    "prepare": "npm run build",
+    "commit": "git cz"
+  },
+  "author": "Kyle Pfromer",
+  "license": "MIT",
+  "repository": "github:hirasawaau/nestjs-typegoose",
+  "peerDependencies": {
+    "@nestjs/common": "^8.4.7",
+    "@nestjs/core": "^8.4.7",
+    "@typegoose/typegoose": "^9.9.0",
+    "mongoose": "^6.3.5"
+  },
+  "dependencies": {
+    "is-class": "^0.0.9",
+    "reflect-metadata": "^0.1.13"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "17.0.2",
+    "@commitlint/config-conventional": "17.0.2",
+    "@nestjs/common": "^8.4.7",
+    "@nestjs/core": "^8.4.7",
+    "@nestjs/platform-express": "^8.4.7",
+    "@nestjs/testing": "^8.4.7",
+    "@semantic-release/changelog": "6.0.1",
+    "@semantic-release/commit-analyzer": "9.0.2",
+    "@semantic-release/git": "10.0.1",
+    "@semantic-release/npm": "9.0.1",
+    "@semantic-release/release-notes-generator": "10.0.3",
+    "@typegoose/typegoose": "^9.9.0",
+    "@types/jest": "28.1.2",
+    "@types/supertest": "2.0.12",
+    "@typescript-eslint/eslint-plugin": "^5.28.0",
+    "@typescript-eslint/parser": "^5.28.0",
+    "commitizen": "4.2.4",
+    "coveralls": "3.1.1",
+    "cz-conventional-changelog": "3.3.0",
+    "eslint": "^8.18.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-prettier": "^4.0.0",
+    "husky": "^8.0.1",
+    "jest": "28.1.1",
+    "mongodb-memory-server": "^8.6.1",
+    "mongoose": "^6.3.5",
+    "prettier": "^2.7.1",
+    "rxjs": "^7.5.5",
+    "semantic-release": "19.0.3",
+    "supertest": "^6.2.3",
+    "ts-jest": "28.0.5",
+    "typescript": "^4.7.4"
+  },
+  "jest": {
+    "moduleFileExtensions": [
+      "js",
+      "ts"
+    ],
+    "rootDir": "src",
+    "testRegex": ".spec.ts$",
+    "transform": {
+      "^.+\\.(t|j)s$": "ts-jest"
     },
-    "scripts": {
-        "build": "tsc -p tsconfig.build.json",
-        "lint": "eslint \"{src,apps,libs,test}/**/*.ts\"",
-        "lint:fix": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
-        "test": "jest",
-        "test:ci": "jest",
-        "test:cov": "jest --coverage",
-        "test:e2e": "jest --config ./test/jest-e2e.json",
-        "test:watch": "jest --watch",
-        "coverage": "yarn run test:cov && cat ./coverage/lcov.info | coveralls",
-        "prepare": "npm run build",
-        "commit": "git cz"
-    },
-    "author": "Kyle Pfromer",
-    "license": "MIT",
-    "repository": "github:hirasawaau/nestjs-typegoose",
-    "peerDependencies": {
-        "@nestjs/common": "^8.4.4",
-        "@nestjs/core": "^8.4.4",
-        "@typegoose/typegoose": "^9.7.1",
-        "mongoose": "^6.2.10"
-    },
-    "dependencies": {
-        "is-class": "^0.0.9",
-        "reflect-metadata": "^0.1.13"
-    },
-    "devDependencies": {
-        "@commitlint/cli": "9.1.2",
-        "@commitlint/config-conventional": "9.1.2",
-        "@nestjs/common": "^8.4.4",
-        "@nestjs/core": "^8.4.4",
-        "@nestjs/platform-express": "^8.4.4",
-        "@nestjs/testing": "^8.4.4",
-        "@semantic-release/changelog": "5.0.1",
-        "@semantic-release/commit-analyzer": "8.0.1",
-        "@semantic-release/git": "9.0.0",
-        "@semantic-release/npm": "7.0.5",
-        "@semantic-release/release-notes-generator": "9.0.1",
-        "@typegoose/typegoose": "^9.7.1",
-        "@types/jest": "26.0.13",
-        "@types/supertest": "2.0.10",
-        "@typescript-eslint/eslint-plugin": "^5.18.0",
-        "@typescript-eslint/parser": "^5.18.0",
-        "commitizen": "4.2.1",
-        "coveralls": "3.1.0",
-        "cz-conventional-changelog": "3.3.0",
-        "eslint": "^8.12.0",
-        "eslint-config-prettier": "^8.5.0",
-        "eslint-plugin-prettier": "^4.0.0",
-        "husky": "4.3.0",
-        "jest": "26.4.2",
-        "mongodb-memory-server": "^8.4.2",
-        "mongoose": "^6.2.10",
-        "prettier": "^2.6.2",
-        "rxjs": "^7.5.5",
-        "semantic-release": "17.1.1",
-        "supertest": "^6.2.2",
-        "ts-jest": "26.3.0",
-        "typescript": "^4.6.3"
-    },
-    "jest": {
-        "moduleFileExtensions": [
-            "js",
-            "ts"
-        ],
-        "rootDir": "src",
-        "testRegex": ".spec.ts$",
-        "transform": {
-            "^.+\\.(t|j)s$": "ts-jest"
-        },
-        "coverageDirectory": "../coverage",
-        "resetMocks": true,
-        "testEnvironment": "node"
-    },
-    "release": {
-        "plugins": [
-            "@semantic-release/commit-analyzer",
-            "@semantic-release/release-notes-generator",
-            "@semantic-release/npm",
-            "@semantic-release/changelog",
-            "@semantic-release/git"
-        ],
-        "branch": "master"
-    },
-    "config": {
-        "commitizen": {
-            "path": "./node_modules/cz-conventional-changelog"
-        }
-    },
-    "husky": {
-        "hooks": {
-            "pre-commit": "yarn test",
-            "pre-push": "yarn test",
-            "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
-        }
+    "coverageDirectory": "../coverage",
+    "resetMocks": true,
+    "testEnvironment": "node"
+  },
+  "release": {
+    "plugins": [
+      "@semantic-release/commit-analyzer",
+      "@semantic-release/release-notes-generator",
+      "@semantic-release/npm",
+      "@semantic-release/changelog",
+      "@semantic-release/git"
+    ],
+    "branch": "master"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
     }
+  }
 }
