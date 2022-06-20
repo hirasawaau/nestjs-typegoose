@@ -1,6 +1,6 @@
 {
   "name": "@hirasawa_au/nestjs-typegoose",
-  "version": "8.0.2",
+  "version": "8.1.0",
   "description": "A nestjs module wrapper for typegoose",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -24,8 +24,8 @@
   "license": "MIT",
   "repository": "github:hirasawaau/nestjs-typegoose",
   "peerDependencies": {
-    "@nestjs/common": "^8.4.7",
-    "@nestjs/core": "^8.4.7",
+    "@nestjs/common": "^8.x.x",
+    "@nestjs/core": "^8.x.x",
     "@typegoose/typegoose": "^9.9.0",
     "mongoose": "^6.3.5"
   },

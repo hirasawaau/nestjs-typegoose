@@ -9,7 +9,6 @@ import {
 } from '@nestjs/common'
 import { InjectModel, TypegooseModule, getModelToken } from '../src'
 import { prop } from '@typegoose/typegoose'
-import { MongoMemoryServer } from 'mongodb-memory-server'
 import { NestApplication } from '@nestjs/core'
 
 const uri = process.env.MONGOURI ?? 'mongodb://localhost:27017/test'

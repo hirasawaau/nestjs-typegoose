@@ -38,7 +38,7 @@ describe('createTypegooseProviders', () => {
     jest.setTimeout(120000)
     mongod = await MongoMemoryServer.create()
 
-    connection = await mongoose.createConnection(mongod.getUri())
+    connection = await mongoose.createConnection(mongod.getUri()).asPromise()
   })
 
   afterAll(async () => {
